@@ -9,12 +9,21 @@ use Illuminate\View\View;
 
 class PusherController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
+    {
+        $message = Messagers::all();
+
+        return view('index',[
+            'messages' => $message
+        ]);
+    }
+
+    public function store(Request $request): View
     {
         $username = $request->input('username');
         $text = $request->input('text');
 
-        if(
+        if (
             isset($username) &&
             isset($text)
         ) {
@@ -29,11 +38,8 @@ class PusherController extends Controller
 
         $message = Messagers::all();
 
-        return view(
-            'index',
-            [
-                'messages' => $message,
-            ]
-        );
+        return view('index',[
+            'messages' => $message
+        ]);
     }
 }

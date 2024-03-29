@@ -12,8 +12,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::match(['get', 'post'], '/', [
+Route::get('/', [
     \App\Http\Controllers\PusherController::class,
-    'index'
+    'index',
 ]);
+
+Route::post('/',
+    [
+        \App\Http\Controllers\PusherController::class,
+        'store',
+    ]
+);
+

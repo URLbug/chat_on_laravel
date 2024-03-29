@@ -2,7 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Chat Layout</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,22 +74,31 @@
     <div id="chat-messages">
         @foreach($messages as $message)
 
-            <div id="myDiv">{{ $message->username }}: {{ $message->message }}</div>
+            <div id="message">{{ $message->username }}: {{ $message->message }}</div>
             <br>
 
         @endforeach
     </div>
 
-    <form action="" method="post">
+    <form id="chat-form" action="/" method="post">
         <div id="chat-input-container">
             @csrf
-            <input type="text" id="chat-input" name="username" placeholder="Write a username..." required>
-            <br/>
-            <input type="text" id="chat-input" name="text" placeholder="Write a message..." required>
-
-            <input value="Send" type="submit" name="submission">
+            <input type="text" id="chat-input-username" name="username" placeholder="Write a username..." required><br>
+            <input type="text" id="chat-input-text" name="text" placeholder="Write a message..." required>
+            <input value="Send" type="submit" id="submission">
         </div>
     </form>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function()
+        {
+            document.getElementById('chat-messages').scrollTop = 9999;
+        }
+    </script>
 </div>
+
+
+
 </body>
 </html>
