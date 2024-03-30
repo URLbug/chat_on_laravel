@@ -78,23 +78,70 @@
             <br>
 
         @endforeach
+
+        <div id="message-2"></div>
     </div>
 
-    <form id="chat-form" action="/" method="post">
+    <form id="chat-form" method="POST" action="/ " enctype="multipart/form-data">
         <div id="chat-input-container">
             @csrf
             <input type="text" id="chat-input-username" name="username" placeholder="Write a username..." required><br>
             <input type="text" id="chat-input-text" name="text" placeholder="Write a message..." required>
-            <input value="Send" type="submit" id="submission">
+            <button id="submit">Send</button>
         </div>
     </form>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-    <script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+    <script defer>
+
+    $(document).ready(function(){
         window.onload = function()
         {
             document.getElementById('chat-messages').scrollTop = 9999;
         }
+        
+        setInterval(function(){
+            $.get(
+                '/all',
+                null,
+                function(data){
+                    console.log(data);
+
+                    $('#chat-messages').html(data);
+                }
+            );
+        }, 4000);
+
+        $('#chat-form').on('submit',function(event){
+                event.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    async: true,
+                    url: '/',
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    type: 'POST', 
+                    contentType: false,             
+                    data: formData,
+                    cache : false,
+                    processData: false,
+                    success:function(response){
+                        document.getElementById('message-2').innerHTML = '<div id="message">' + 
+                            response.username + ': ' + response.message + '</div>';
+                        
+                        $('#chat-input-text').val('');
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                alert("some error");
+                    },
+                });
+            });
+        })
+
+        
+
     </script>
 </div>
 

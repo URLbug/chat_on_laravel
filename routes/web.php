@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Messagers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,8 @@ Route::post('/',
     ]
 );
 
+
+Route::get('/all', function(){
+    return view('all', 
+    ['messages' => Messagers::all()]);
+});

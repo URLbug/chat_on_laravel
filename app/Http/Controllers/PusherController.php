@@ -18,7 +18,7 @@ class PusherController extends Controller
         ]);
     }
 
-    public function store(Request $request): View
+    public function store(Request $request)
     {
         $username = $request->input('username');
         $text = $request->input('text');
@@ -35,11 +35,10 @@ class PusherController extends Controller
                 ]
             );
         }
-
-        $message = Messagers::all();
-
-        return view('index',[
-            'messages' => $message
-        ]);
+        
+        return response()->json([
+            'username' => $username,
+            'message' => $text,
+        ], 200);
     }
 }
