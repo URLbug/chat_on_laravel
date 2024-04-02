@@ -13,20 +13,26 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// get requests
+
 Route::get('/', [
     \App\Http\Controllers\PusherController::class,
     'index',
 ]);
 
-Route::post('/',
-    [
+Route::get('/all', [
+    \App\Http\Controllers\PusherController::class,
+    'all',
+]);
+
+// post requests
+
+Route::post('/', [
         \App\Http\Controllers\PusherController::class,
         'store',
     ]
 );
 
 
-Route::get('/all', function(){
-    return view('all', 
-    ['messages' => Messagers::all()]);
-});
+
