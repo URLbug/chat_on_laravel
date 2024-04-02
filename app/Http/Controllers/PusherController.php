@@ -5,17 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Messagers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class PusherController extends Controller
 {
-    public function index(): View
+    public function index()
     {
         $message = Messagers::all();
 
-        return view('index',[
+        return view('content.chat',[
             'messages' => $message
         ]);
+    }
+
+    public function all()
+    {
+        if(\request()->ajax())
+        {
+            $message = Messagers::all();
+
+            return view('all',[
+                'messages' => $message
+            ]);
+        }
+
+        abort(404);
     }
 
     public function store(Request $request)
@@ -35,7 +48,7 @@ class PusherController extends Controller
                 ]
             );
         }
-        
+
         return response()->json([
             'username' => $username,
             'message' => $text,
